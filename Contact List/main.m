@@ -18,10 +18,25 @@ int main(int argc, const char * argv[]) {
         
         ContactList *contacts = [[ContactList alloc] init];
         
+        Contact *firstContact = [[Contact alloc] init];
+        firstContact.name = @"A E C";
+        firstContact.email = @"alp@can.com";
+        [contacts addContact:firstContact];
+        
+        Contact *secondContact = [[Contact alloc] init];
+        secondContact.name = @"C O";
+        secondContact.email = @"ceren@oksuz.com";
+        [contacts addContact:secondContact];
+        
+        Contact *thirdContact = [[Contact alloc] init];
+        thirdContact.name = @"O C";
+        thirdContact.email = @"onur@candar.com";
+        [contacts addContact:thirdContact];
+        
         while (repeat) {
             InputCollector *inputCollector = [[InputCollector alloc] init];
             
-            NSString *cmd = [inputCollector inputForPrompt:@"What would you like to do next?\n new - Create a new contact\n list - List all contacts\n quit - Exit Application"];
+            NSString *cmd = [inputCollector inputForPrompt:@"What would you like to do next?\n new - Create a new contact\n show - Show contact details\n list - List all contacts\n quit - Exit Application"];
             
             if ([cmd isEqualToString:@"quit"]) {
                 repeat = NO;
@@ -38,6 +53,22 @@ int main(int argc, const char * argv[]) {
                 
             } else if ([cmd isEqualToString:@"list"]) {
                 NSLog(@"%@", contacts);
+                
+            } else if ([cmd isEqualToString:@"show"]) {
+                
+                NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+                numberFormatter.numberStyle = NSNumberFormatterNoStyle;
+                
+                bool contactShown = NO;
+                while (!contactShown) {
+                    NSNumber *index = [numberFormatter numberFromString:[inputCollector inputForPrompt:@"Index: "]];
+                    if (index.intValue < 0 || index.intValue >= contacts.list.count) {
+                        NSLog(@"not found");
+                    } else {
+                        NSLog(@"%@", contacts.list[index.intValue]);
+                        contactShown = YES;
+                    }
+                }
                 
             } else {
                 NSLog(@"Not a valid input");

@@ -32,7 +32,7 @@
 {
     NSString *description = @"";
     for (Contact *contact in self.list) {
-        description = [NSString stringWithFormat:@"%lu: <%@> (%@)", (unsigned long)[self.list indexOfObject:contact], contact.name, contact.email];
+        description = [description stringByAppendingString:[NSString stringWithFormat:@"%lu: <%@> (%@)\n", (unsigned long)[self.list indexOfObject:contact], contact.name, contact.email]];
     }
     return description;
 }
