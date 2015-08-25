@@ -37,6 +37,7 @@ int main(int argc, const char * argv[]) {
                 [contacts addContact:contact];
                 
             } else if ([cmd isEqualToString:@"list"]) {
+                NSLog(@"%@", contacts);
                 
             } else {
                 NSLog(@"Not a valid input");
