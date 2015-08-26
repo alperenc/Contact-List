@@ -36,7 +36,9 @@ int main(int argc, const char * argv[]) {
         while (repeat) {
             InputCollector *inputCollector = [[InputCollector alloc] init];
             
-            NSString *cmd = [inputCollector inputForPrompt:@"What would you like to do next?\n new - Create a new contact\n show - Show contact details\n list - List all contacts\n quit - Exit Application"];
+            NSString *cmd = [inputCollector inputForPrompt:@"What would you like to do next?\n new - Create a new contact\n find - Find contact\n show - Show contact details\n list - List all contacts\n quit - Exit Application"];
+            
+            NSArray *cmdArray = [cmd componentsSeparatedByString:@" "];
             
             if ([cmd isEqualToString:@"quit"]) {
                 repeat = NO;
@@ -67,6 +69,22 @@ int main(int argc, const char * argv[]) {
                     } else {
                         NSLog(@"%@", contacts.list[index.intValue]);
                         contactShown = YES;
+                    }
+                }
+                
+            } else if ([cmdArray[0] isEqualToString:@"find"]) {
+                
+                bool contactFound = NO;
+                
+                for (Contact *contact in contacts.list) {
+                    if ([[contact.name lowercaseString] rangeOfString:[cmdArray[1] lowercaseString]].length != 0 ||
+                        [[contact.email lowercaseString] rangeOfString:[cmdArray[1] lowercaseString]].length != 0) {
+                        contactFound = YES;
+                        NSLog(@"%@", contact);
+                    }
+                    
+                    if (!contactFound) {
+                        NSLog(@"not found");
                     }
                 }
                 
