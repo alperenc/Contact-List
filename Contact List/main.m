@@ -44,14 +44,28 @@ int main(int argc, const char * argv[]) {
                 repeat = NO;
                 NSLog(@"Adéu!");
             } else if ([cmd isEqualToString:@"new"]) {
-                NSString *name = [inputCollector inputForPrompt:@"Name: "];
                 NSString *email = [inputCollector inputForPrompt:@"Email: "];
                 
-                Contact *contact = [[Contact alloc] init];
-                contact.name = name;
-                contact.email = email;
+                bool contactExists = NO;
                 
-                [contacts addContact:contact];
+                for (Contact *contact in contacts.list) {
+                    if ([contact.email isEqualToString:email]) {
+                        contactExists = YES;
+                    }
+                }
+                
+                if (!contactExists) {
+                    NSString *name = [inputCollector inputForPrompt:@"Name: "];
+                    
+                    Contact *contact = [[Contact alloc] init];
+                    contact.name = name;
+                    contact.email = email;
+                    
+                    [contacts addContact:contact];
+
+                } else {
+                    NSLog(@"A contact with this email address has already been added: %@", email);
+                }
                 
             } else if ([cmd isEqualToString:@"list"]) {
                 NSLog(@"%@", contacts);
