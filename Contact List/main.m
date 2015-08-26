@@ -33,17 +33,21 @@ int main(int argc, const char * argv[]) {
         thirdContact.email = @"onur@candar.com";
         [contacts addContact:thirdContact];
         
+        InputCollector *inputCollector = [[InputCollector alloc] init];
+        inputCollector.commands = [[NSMutableArray alloc] init];
+        
         while (repeat) {
-            InputCollector *inputCollector = [[InputCollector alloc] init];
             
             NSString *cmd = [inputCollector inputForPrompt:@"What would you like to do next?\n new - Create a new contact\n find - Find contact\n show - Show contact details\n list - List all contacts\n quit - Exit Application"];
             
             NSArray *cmdArray = [cmd componentsSeparatedByString:@" "];
             
             if ([cmd isEqualToString:@"quit"]) {
+                [inputCollector.commands addObject:cmd];
                 repeat = NO;
                 NSLog(@"Adéu!");
             } else if ([cmd isEqualToString:@"new"]) {
+                [inputCollector.commands addObject:cmd];
                 NSString *email = [inputCollector inputForPrompt:@"Email: "];
                 
                 bool contactExists = NO;
@@ -85,9 +89,11 @@ int main(int argc, const char * argv[]) {
                 }
                 
             } else if ([cmd isEqualToString:@"list"]) {
+                [inputCollector.commands addObject:cmd];
                 NSLog(@"%@", contacts);
                 
             } else if ([cmd isEqualToString:@"show"]) {
+                [inputCollector.commands addObject:cmd];
                 
                 NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
                 numberFormatter.numberStyle = NSNumberFormatterNoStyle;
@@ -104,6 +110,7 @@ int main(int argc, const char * argv[]) {
                 }
                 
             } else if ([cmdArray[0] isEqualToString:@"find"]) {
+                [inputCollector.commands addObject:cmd];
                 
                 bool contactFound = NO;
                 
@@ -117,6 +124,11 @@ int main(int argc, const char * argv[]) {
                     if (!contactFound) {
                         NSLog(@"not found");
                     }
+                }
+                
+            } else if ([cmd isEqualToString:@"history"]) {
+                for (NSString *command in inputCollector.commands) {
+                    NSLog(@"%@", command);
                 }
                 
             } else {
