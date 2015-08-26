@@ -60,6 +60,23 @@ int main(int argc, const char * argv[]) {
                     Contact *contact = [[Contact alloc] init];
                     contact.name = name;
                     contact.email = email;
+                    contact.phoneNumbers = [[NSMutableDictionary alloc] init];
+                    
+                    bool addPhoneNumber = YES;
+                    
+                    while (addPhoneNumber) {
+                        NSString *phoneLabel = [inputCollector inputForPrompt:@"Phone label: "];
+                        NSString *phoneNumber = [inputCollector inputForPrompt:@"Phone number: "];
+                        
+                        NSLog(@"%@ %@", phoneLabel, phoneNumber);
+                        
+//                        contact.phoneNumbers[phoneLabel] = phoneNumber;
+                        [contact.phoneNumbers setValue:phoneNumber forKey:phoneLabel];
+                        
+                        NSString *morePhoneNumbers = [inputCollector inputForPrompt:@"Add more phone numbers? (y/n)"];
+                        
+                        addPhoneNumber = [morePhoneNumbers isEqualToString:@"y"];
+                    }
                     
                     [contacts addContact:contact];
 
